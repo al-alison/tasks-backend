@@ -6,10 +6,21 @@ pipeline {
                 bat 'mvn clean package -DskipTests=true'
             }
         }
-         stage('Unit tests'){
+         stage('Unit Tests'){
             steps{
                 bat 'mvn test'
             }
         }
+         stage('Sonar Analisys'){
+            environment{
+                scannerHome = tool 'SONAR_SCANNER'
+            }
+            steps{
+                withSonarQubeEnv('SONAR_LOCAL'){
+                    bat "${scannerHome}/bin/sonnar-scanner -e -Dsonar.projectKey=DeployBack -Dsonar.host.url=http://localhost:9000 -Dsonar.login=13bfeaf2d0ae7edbb33740075ab87e55a31299b9 -Dsonar.java.binaries=target -Dsonar.coverage.exclusions=**/.mvn/**,**/src/test/**,**/model/**,**Application.java"
+                }
+            }
+        }
     }
 }
+
