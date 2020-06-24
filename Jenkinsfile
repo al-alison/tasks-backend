@@ -48,7 +48,6 @@ pipeline {
                     git 'https://github.com/al-alison/tasks-frontend.git'
                     bat 'mvn clean package'
                     deploy adapters: [tomcat8(credentialsId: 'tomcat_user', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
-
                 }
             }
         }
